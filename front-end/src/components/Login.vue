@@ -195,7 +195,7 @@ export default {
         .then((res) => {
           if (res.data.success) {
             sessionStorage.setItem("user", JSON.stringify(res.data.data));
-            this.$router.push("/index");
+            this.$router.push("/main");
           } else {
             //1.清空表单
             this.$refs.loginForm.resetFields();

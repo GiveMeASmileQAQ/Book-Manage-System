@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Login from "@/components/Login";
 import Main from "@/components/Main";
 import Index from "@/components/Index";
-import Header from "@/components/Header";
+import Update from "@/components/Update";
 import Library from "@/components/Library";
 import Details from "@/components/Details";
 import Record from "@/components/Record";
@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: "/", // 默认进入路由
-      redirect: "/main" //重定向
+      redirect: "/login" //重定向
     },
     {
       path: "/login",
@@ -25,6 +25,10 @@ export default new Router({
       path: "/main",
       name: "Main",
       component: Main,
+      redirect:"/main/index",
+      meta:{
+        needLogin:"true"
+      },
       children: [
         {
           path: "index",
@@ -45,6 +49,11 @@ export default new Router({
           path: "record",
           name: "Record",
           component: Record
+        },
+        {
+          path: "update",
+          name: "Update",
+          component: Update
         },
       ]
     },
