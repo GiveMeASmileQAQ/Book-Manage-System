@@ -1,15 +1,21 @@
 <template>
   <div>
-      <h1>This is Update!</h1>
+    <el-row>
+      <el-col :span="9" :offset="8">
+        <el-card>
+          <router-view></router-view>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 export default {
-
-}
+  data() {
+    return {};
+  },
+};
 </script>
-
 <style>
-
 </style>

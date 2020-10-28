@@ -10,13 +10,14 @@ export default new Vuex.Store({
       studentName: "",
       studentGender: "",
       studentAge: "",
-      studentEmail:"",
+      studentEmail: "",
       studentGrade: "",
       studentContact: "",
       studentDept: "",
       studentMajor: ""
     }
   },
+  getters: {},
   mutations: {
     initStudent(state, std) {
       state.student.studentId = std.studentId;
@@ -31,8 +32,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getInitStudent(context,std){
-      context.commit('initStudent',std);
-    },
+    getInitStudent(context, std) {
+      context.commit("initStudent", std);
+    }
   },
+ 
 });

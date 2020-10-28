@@ -4,6 +4,8 @@ import Login from "@/components/Login";
 import Main from "@/components/Main";
 import Index from "@/components/Index";
 import Update from "@/components/Update";
+import updateStepOne from "@/components/updateStepOne";
+import updateStepTwo from "@/components/updateStepTwo";
 import Library from "@/components/Library";
 import Details from "@/components/Details";
 import Record from "@/components/Record";
@@ -25,9 +27,9 @@ export default new Router({
       path: "/main",
       name: "Main",
       component: Main,
-      redirect:"/main/index",
-      meta:{
-        needLogin:"true"
+      redirect: "/main/index",
+      meta: {
+        needLogin: "true"
       },
       children: [
         {
@@ -53,9 +55,23 @@ export default new Router({
         {
           path: "update",
           name: "Update",
-          component: Update
-        },
+          component: Update,
+          redirect:"/main/update/updateStepOne",
+          children: [
+            {
+              path: "updateStepOne",
+              name: "updateStepOne",
+              component: updateStepOne
+            },
+            {
+              path: "updateStepTwo",
+              name: "updateStepTwo",
+              component: updateStepTwo
+            }
+
+          ]
+        }
       ]
-    },
+    }
   ]
 });
