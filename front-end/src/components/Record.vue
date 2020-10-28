@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>This is Record</h1>
   </div>
 </template>
 

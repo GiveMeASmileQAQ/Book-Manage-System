@@ -1,31 +1,33 @@
 <template>
   <div>
     <el-menu
-      :default-active="activeIndex2"
       class="el-menu-demo"
+      :default-active="this.$route.path"
+      router
       mode="horizontal"
       @select="handleSelect"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-          <template slot="title">选项4</template>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4">
-        <a href="https://www.ele.me" target="_blank">订单管理</a>
-        </el-menu-item>
+      <el-row>
+        <el-col :span="3">
+          <el-menu-item index="/main/index" router>智 慧 文 创 图 书 馆</el-menu-item>
+        </el-col>
+
+        <el-col :span="2" :offset="17">
+          <el-menu-item index="/main/library">书库</el-menu-item>
+        </el-col>
+
+        <el-col :span="2">
+          <el-submenu index="">
+            <template slot="title">登录</template>
+            <el-menu-item index="/main/details">个人信息</el-menu-item>
+            <el-menu-item index="/main/record">借阅记录</el-menu-item>
+            <el-menu-item index="/main/out">退出登录</el-menu-item>
+          </el-submenu>
+        </el-col>
+      </el-row>
     </el-menu>
   </div>
 </template>
@@ -33,10 +35,7 @@
 <script>
 export default {
   data() {
-    return {
-      activeIndex: "1",
-      activeIndex2: "1",
-    };
+    return {};
   },
   methods: {
     handleSelect(key, keyPath) {
