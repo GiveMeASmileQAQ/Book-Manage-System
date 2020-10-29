@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
-import Main from "@/components/Main";
 import Index from "@/components/Index";
 import Update from "@/components/Update";
 import updateStepOne from "@/components/updateStepOne";
@@ -24,52 +23,58 @@ export default new Router({
       component: Login
     },
     {
-      path: "/main",
-      name: "Main",
-      component: Main,
-      redirect: "/main/index",
+      path: "/index",
+      name: "Index",
+      component: Index,
       meta: {
-        needLogin: "true"
-      },
+        needLogin: true
+      }
+    },
+    {
+      path: "/library",
+      name: "Library",
+      component: Library,
+      meta: {
+        needLogin: true
+      }
+    },
+    {
+      path: "/details",
+      name: "Details",
+      component: Details,
+      meta: {
+        needLogin: true
+      }
+    },
+    {
+      path: "/record",
+      name: "Record",
+      component: Record,
+      meta: {
+        needLogin: true
+      }
+    },
+    {
+      path: "/update",
+      name: "Update",
+      component: Update,
+      redirect: "/update/updateStepOne",
       children: [
         {
-          path: "index",
-          name: "Index",
-          component: Index
+          path: "updateStepOne",
+          name: "updateStepOne",
+          component: updateStepOne,
+          meta: {
+            needLogin: true
+          }
         },
         {
-          path: "library",
-          name: "Library",
-          component: Library
-        },
-        {
-          path: "details",
-          name: "Details",
-          component: Details
-        },
-        {
-          path: "record",
-          name: "Record",
-          component: Record
-        },
-        {
-          path: "update",
-          name: "Update",
-          component: Update,
-          redirect:"/main/update/updateStepOne",
-          children: [
-            {
-              path: "updateStepOne",
-              name: "updateStepOne",
-              component: updateStepOne
-            },
-            {
-              path: "updateStepTwo",
-              name: "updateStepTwo",
-              component: updateStepTwo
-            }
-
-          ]
+          path: "updateStepTwo",
+          name: "updateStepTwo",
+          component: updateStepTwo,
+          meta: {
+            needLogin: true
+          }
         }
       ]
     }

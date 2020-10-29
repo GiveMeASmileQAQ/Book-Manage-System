@@ -25,8 +25,8 @@ new Vue({
 });
 
 router.beforeEach(function(to, from, next) {
+  //页面是否登录
   if (to.meta.needLogin) {
-    //页面是否登录
     if (sessionStorage.getItem("user")) {
       //本地存储中是否有user数据
       next(); //表示已经登录

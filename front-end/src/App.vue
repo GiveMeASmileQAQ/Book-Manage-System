@@ -1,12 +1,15 @@
 <template>
   <div id="app">
+    <Header v-if="this.$route.path!='/login'"></Header>
     <router-view />
   </div>
 </template>
 
 <script>
+import Header from "./components/Header";
 export default {
   name: "App",
+  components:{Header},
 };
 </script>
 

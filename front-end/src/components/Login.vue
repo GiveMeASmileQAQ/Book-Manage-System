@@ -12,6 +12,7 @@
               <el-form-item prop="studentId">
                 <el-input
                   type="text"
+                  ref="userLogin"
                   v-model="formData_login.studentId"
                   placeholder="学号"
                 >
@@ -19,6 +20,7 @@
               </el-form-item>
               <el-form-item prop="userPassword">
                 <el-input
+                  ref="passwordLogin"
                   type="password"
                   v-model="formData_login.userPassword"
                   placeholder="密码"
@@ -45,6 +47,7 @@
             >
               <el-form-item prop="studentId">
                 <el-input
+                  ref="userRegister"
                   type="text"
                   v-model="formData_register.studentId"
                   placeholder="学号"
@@ -127,6 +130,7 @@ export default {
             message: "长度在 4 到 12 个字符",
             trigger: "blur",
           },
+          { pattern: /^\d{1,}$/, message: "学号为纯数字", trigger: "blur" },
         ],
         userPassword: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -147,6 +151,7 @@ export default {
             message: "长度在 4 到 12 个字符",
             trigger: "blur",
           },
+          { pattern: /^\d{1,}$/, message: "学号为纯数字", trigger: "blur" },
           { required: true, validator: check, trigger: "blur" },
         ],
         userPassword: [
@@ -187,62 +192,100 @@ export default {
 
     //登录事件
     login: function () {
-      this.$axios
-        .post("/api/user/login", {
-          studentId: this.formData_login.studentId,
-          userPassword: this.formData_login.userPassword,
-        })
-        .then((res) => {
-          if (res.data.success) {
-            sessionStorage.setItem("user", JSON.stringify(res.data.data));
-            this.$router.push("/main");
-          } else {
-            //1.清空表单
-            this.$refs.loginForm.resetFields();
-            //2.输出错误信息
-            this.$message({
-              type: "warning",
-              showClose: true,
-              message: res.data.msg,
-              center: true,
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post("/api/user/login", {
+              studentId: this.formData_login.studentId,
+              userPassword: this.formData_login.userPassword,
+            })
+            .then((res) => {
+              if (res.data.success) {
+                sessionStorage.setItem("user", res.data.data.studentId);
+                const stu = localStorage.getItem("studentId");
+                if (stu != this.formData_login.studentId) {
+                  localStorage.setItem(
+                    "studentId",
+                    this.formData_login.studentId
+                  );
+                }
+                this.$router.push("/index");
+              } else {
+                //1.清空表单
+                this.$refs.loginForm.resetFields();
+                //2.输出错误信息
+                this.$message({
+                  type: "warning",
+                  showClose: true,
+                  message: res.data.msg,
+                  center: true,
+                });
+              }
             });
-          }
-        });
+        } else {
+          this.$message({
+            type: "warning",
+            showClose: true,
+            message: "请正确填写信息！",
+            center: true,
+          });
+        }
+      });
     },
 
     //注册事件
     register: function () {
-      this.$axios
-        .post("/api/user/register", {
-          studentId: this.formData_register.studentId,
-          userPassword: this.formData_register.userPassword,
-        })
-        .then((res) => {
-          if (res.data.success) {
-            //1.显示注册成功
-            this.$message({
-              type: "success",
-              showClose: true,
-              message: res.data.msg,
-              center: true,
+      this.$refs.registerForm.validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post("/api/user/register", {
+              studentId: this.formData_register.studentId,
+              userPassword: this.formData_register.userPassword,
+            })
+            .then((res) => {
+              if (res.data.success) {
+                //1.显示注册成功
+                this.$message({
+                  type: "success",
+                  showClose: true,
+                  message: res.data.msg,
+                  center: true,
+                });
+                //2.跳转回登录界面
+                this.flip();
+              } else {
+                //1.清空表单
+                this.$refs.registerForm.resetFields();
+                //2.提示注册失败
+                this.$message({
+                  type: "warning",
+                  showClose: true,
+                  message: res.data.msg,
+                  center: true,
+                });
+              }
             });
-            //2.跳转回登录界面
-            this.flip();
-          } else {
-            //1.清空表单
-            this.$refs.registerForm.resetFields();
-            //2.提示注册失败
-            this.$message({
-              type: "warning",
-              showClose: true,
-              message: res.data.msg,
-              center: true,
-            });
-          }
-        });
+        } else {
+          this.$message({
+            type: "warning",
+            showClose: true,
+            message: "请正确填写信息！",
+            center: true,
+          });
+        }
+      });
     },
   },
-  created() {},
+  mounted() {
+    if (this.formData_login.studentId == null) {
+      this.$refs.userLogin.focus();
+    } else {
+      this.$refs.passwordLogin.focus();
+    }
+  },
+  created() {
+    this.formData_login.studentId = localStorage.getItem("studentId");
+  },
 };
 </script>
 
