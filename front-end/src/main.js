@@ -29,7 +29,15 @@ router.beforeEach(function(to, from, next) {
   if (to.meta.needLogin) {
     if (sessionStorage.getItem("user")) {
       //本地存储中是否有user数据
-      next(); //表示已经登录
+      if (to.meta.needCheckUpdate) {
+        if (sessionStorage.getItem("update")) {
+          next();
+        } else {
+          next("/update/updateStepOne");
+        }
+      } else {
+        next(); //表示已经登录
+      }
     } else {
       //next可以传递一个路由对象作为参数 表示需要跳转到的页面
       if (to.path === "/login") {

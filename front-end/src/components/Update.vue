@@ -18,4 +18,7 @@ export default {
 };
 </script>
 <style>
+.el-card{
+  height: 300px;
+}
 </style>

@@ -108,6 +108,8 @@ export default {
       }).then((res) => {
         if (!res.data.success) {
           callback(new Error("此学号暂无注册资格"));
+        }else{
+          callback();
         }
       });
     };
@@ -152,7 +154,7 @@ export default {
             trigger: "blur",
           },
           { pattern: /^\d{1,}$/, message: "学号为纯数字", trigger: "blur" },
-          { required: true, validator: check, trigger: "blur" },
+          { validator: check, trigger: "blur" },
         ],
         userPassword: [
           { required: true, message: "请输入密码", trigger: "blur" },
