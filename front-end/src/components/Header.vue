@@ -27,7 +27,7 @@
             <el-menu-item index="/details">个人信息</el-menu-item>
             <el-menu-item index="/record">借阅记录</el-menu-item>
             <el-menu-item index="/update">修改密码</el-menu-item>
-            <el-menu-item index="/out">退出登录</el-menu-item>
+            <el-menu-item @click="out">退出登录</el-menu-item>
           </el-submenu>
         </el-col>
       </el-row>
@@ -43,6 +43,23 @@ export default {
     };
   },
   methods: {
+    out() {
+      this.$confirm("是否退出登录?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          sessionStorage.removeItem("user");
+          this.$router.push("/login");
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消退出",
+          });
+        });
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
